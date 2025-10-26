@@ -1,0 +1,2073 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crisis de Valores en la Educación | Digital Interactivo</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Variables de colores y estilos */
+    :root {
+      --primary: #007bff; /* Cambiado a azul */
+      --secondary: #CE1126;
+      --accent: #007bff; /* Cambiado a azul para botones */
+      --light: #F5F5F5;
+      --dark: #333333;
+      --transition: all 0.3s ease;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --radius: 8px;
+    }
+    /* Estilos generales */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: var(--dark);
+      background-color: var(--light);
+      overflow-x: hidden;
+    }
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 10px;
+    }
+    /* Header y navegación */
+    header {
+      background: linear-gradient(135deg, var(--primary) 0%, #004080 100%);
+      color: white;
+      padding: 1.5rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+    }
+    .logo i {
+      margin-right: 10px;
+      color: var(--accent);
+    }
+    .nav-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 60px;
+      height: 100vh;
+      flex-direction: column;
+      background: linear-gradient(135deg, var(--primary) 0%, #004080 100%);
+      transition: width var(--transition);
+      z-index: 999;
+      padding: 6rem 1rem 2rem 1rem;
+      overflow-y: auto;
+      list-style: none;
+    }
+    .nav-menu.active {
+      width: 250px;
+    }
+    .nav-item {
+      margin: 1rem 0;
+    }
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      padding: 0.5rem 0;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .nav-link i {
+      margin-right: 10px;
+      min-width: 20px;
+      transition: transform 0.3s ease; /* MEJORA 3: Añadida transición para zoom */
+    }
+    .nav-link:hover {
+      color: #FFA500; /* Color naranja/amarillo para contraste */
+    }
+    /* MEJORA 3: Efecto zoom en icono y texto */
+    .nav-link:hover i,
+    .nav-link:hover span {
+        transform: scale(1.1);
+    }
+    .nav-link span {
+      white-space: nowrap;
+      display: none;
+      transition: transform 0.3s ease; /* MEJORA 3: Añadida transición para zoom */
+    }
+    .nav-menu.active span {
+      display: inline;
+    }
+    .nav-link:after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: var(--accent);
+      transition: var(--transition);
+    }
+    .nav-link:hover:after {
+      width: 0; /* MEJORA 3: Eliminado el subrayado en hover */
+    }
+    .logo-item .nav-link {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .logo-item {
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    }
+    .hamburger {
+      display: block;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      animation: heartbeat 1.5s ease-in-out infinite;
+    }
+    .main-content {
+      margin-left: 60px;
+      transition: margin-left var(--transition);
+    }
+    .main-content.menu-open {
+      margin-left: 250px;
+    }
+    @media (min-width: 769px) {
+      /* En desktop, inicia con menú expandido */
+    }
+    /* Hero Section with Slider */
+    .hero {
+      height: 70vh;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+    }
+    .slider {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 300%;
+      height: 100%;
+      display: flex;
+      transition: transform 1s ease-in-out;
+    }
+    .slide {
+      width: 100vw;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+    .slide:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      padding: 2rem;
+    }
+    .hero-title {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    .hero-subtitle {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    }
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .pagination {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 1;
+    }
+    .dot {
+      width: 12px;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .dot.active {
+      background: white;
+    }
+    .btn {
+      display: inline-block;
+      background: var(--accent); /* Azul */
+      color: white; /* Texto blanco */
+      padding: 0.8rem 1.5rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+      border: 2px solid transparent;
+    }
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      background: #0056b3; /* Azul más oscuro */
+    }
+    .btn.btn-secondary {
+      background: transparent;
+      border: 2px solid var(--accent);
+      color: white;
+    }
+    .btn.btn-secondary:hover {
+      background: var(--accent);
+      color: white;
+    }
+    /* Secciones */
+    .section {
+      padding: 5rem 0;
+    }
+    .section-title {
+      text-align: center;
+      margin-bottom: 3rem;
+      color: var(--primary);
+      position: relative;
+      padding-bottom: 1rem;
+    }
+    .section-title:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 4px;
+      background: var(--secondary);
+      border-radius: 2px;
+    }
+    /* -- INICIO DE ESTILOS PARA TARJETAS CON GIRO -- */
+    .institutions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .institution-card {
+      background-color: transparent;
+      height: 450px; /* Altura fija para la tarjeta */
+      perspective: 1000px; /* Perspectiva para el efecto 3D */
+      transition: transform 0.3s ease;
+    }
+    .institution-card:hover {
+      transform: scale(1.05); /* MEJORA 1: Efecto de zoom reactivado */
+    }
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+    .institution-card.is-flipped .card-inner {
+      transform: rotateY(180deg);
+    }
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .card-front {
+      background: white;
+    }
+    .card-back {
+      background: white;
+      transform: rotateY(180deg);
+      padding: 1.5rem;
+      overflow-y: auto; /* Scroll si el contenido es largo */
+    }
+    .card-back h4 {
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+    }
+    .card-back p {
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+    .card-back ul {
+      list-style-type: '  ✔  ';
+      padding-left: 1.2rem;
+      font-size: 0.9rem;
+    }
+    .card-back ul li {
+      margin-bottom: 0.5rem;
+      padding-left: 0.5rem;
+    }
+    .btn-back {
+      margin-top: auto; /* Empuja el botón al final */
+      padding: 0.5rem 1rem;
+      border: none;
+      background-color: var(--secondary);
+      color: white;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-weight: 600;
+    }
+    .btn-back:hover {
+      background-color: #a50c1e;
+    }
+    .card-img {
+      height: 180px;
+      overflow: hidden;
+    }
+    .card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+    .card-content {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1; /* Permite que el contenido crezca */
+    }
+    .card-title {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+      color: var(--primary);
+    }
+    .card-text {
+      margin-bottom: 1.5rem;
+      color: #666;
+      flex-grow: 1;
+    }
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      color: var(--secondary);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      cursor: pointer;
+      margin-top: auto; /* Empuja el enlace al final */
+    }
+    .card-link i {
+      margin-left: 5px;
+      transition: var(--transition);
+    }
+    .card-link:hover {
+      color: #a50c1e;
+    }
+    .card-link:hover i {
+      transform: translateX(5px);
+    }
+    /* -- FIN DE ESTILOS PARA TARJETAS CON GIRO -- */
+    /* Acordeón de niveles educativos */
+    .levels-accordion {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .accordion-item {
+      margin-bottom: 1rem;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .accordion-header {
+      background: white;
+      padding: 1.25rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: var(--transition);
+    }
+    .accordion-header:hover {
+      background: #e0e0e0;
+    }
+    .accordion-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
+    .accordion-icon {
+      transition: var(--transition);
+    }
+    .accordion-content {
+      background: white;
+      padding: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+    .accordion-content-inner {
+      padding: 1.25rem;
+      border-top: 1px solid #eee;
+    }
+    .accordion-content-inner ul {
+      list-style: none;
+      padding: 0;
+    }
+    .accordion-content-inner ul li {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .accordion-content-inner ul li i {
+      color: var(--primary);
+      margin-right: 10px;
+      width: 20px;
+      text-align: center;
+    }
+    .accordion-item.active .accordion-icon {
+      transform: rotate(180deg);
+    }
+    .accordion-item.active .accordion-content {
+      max-height: 500px;
+    }
+    /* ESTILOS PARA LA SECCIÓN DE REFORMAS EDUCATIVAS */
+    .reforms-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .reform-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .reform-card:hover {
+      transform: translateY(-5px) scale(1.03); /* MEJORA 1: Añadido scale(1.03) */
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    }
+    .reform-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1.5rem;
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+    }
+    .heartbeat {
+      animation: heartbeat 1.5s ease-in-out infinite;
+    }
+    .reform-card h3 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
+    .reform-card p {
+      color: #666;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    /* -- INICIO DE ESTILOS PARA LÍNEA DE TIEMPO -- */
+    #linea-tiempo {
+      background: #f9f9f9;
+    }
+    .timeline-slider-container {
+      position: relative;
+      width: 100%;
+      padding: 0 50px; /* Espacio para los botones */
+    }
+    .timeline-slider {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE 10+ */
+      scroll-behavior: smooth;
+    }
+    .timeline-slider::-webkit-scrollbar {
+      display: none; /* Safari and Chrome */
+    }
+    .timeline-item {
+      flex: 0 0 100%;
+      scroll-snap-align: center;
+      padding: 1rem;
+      box-sizing: border-box;
+      transition: transform 0.3s ease;
+    }
+    .timeline-item:hover {
+      transform: scale(1.02); /* Efecto de zoom */
+    }
+    .timeline-card {
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      position: relative;
+      border-left: 5px solid var(--primary);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .timeline-year {
+      position: absolute;
+      top: -20px;
+      left: 2rem;
+      background: var(--secondary);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-weight: 700;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .timeline-title {
+      color: var(--primary);
+      margin-top: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .timeline-content ul {
+      list-style-type: ' ✔  ';
+      padding-left: 1.2rem;
+    }
+    .timeline-content ul li {
+      margin-bottom: 0.5rem;
+      padding-left: 0.5rem;
+    }
+    .timeline-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 10;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+    }
+    .timeline-nav:hover {
+      background: #004d33;
+      transform: translateY(-50%) scale(1.1);
+    }
+    .timeline-nav.prev {
+      left: 0;
+    }
+    .timeline-nav.next {
+      right: 0;
+    }
+    @media (min-width: 768px) {
+      .timeline-item {
+        flex-basis: 50%;
+      }
+    }
+    @media (min-width: 1024px) {
+      .timeline-item {
+        flex-basis: 33.33%;
+      }
+    }
+    /* -- FIN DE ESTILOS PARA LÍNEA DE TIEMPO -- */
+    /* -- INICIO DE ESTILOS PARA NUEVO MENÚ DE PROPUESTAS -- */
+    #propuestas {
+      position: relative;
+      height: 80vh;
+      overflow: hidden;
+      background: #ececec;
+      padding: 0;
+      text-align: center;
+    }
+    #propuestas .container {
+      position: relative;
+      z-index: 2;
+      padding-top: 5rem;
+    }
+    #propuestas .section-title {
+      transition: transform 0.8s ease;
+    }
+    #propuestas.menu-deployed .section-title {
+      transform: translateY(-15vh);
+    }
+    #propuestas .section-description {
+      position: absolute;
+      top: calc(50% + 160px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.5s ease 0.5s, visibility 0.5s ease 0.5s;
+      z-index: 2;
+    }
+    #propuestas .instruction-text {
+      text-align: center;
+      margin-top: 2rem;
+      z-index: 2;
+      position: relative;
+      transition: transform 0.8s ease;
+    }
+    #propuestas.menu-deployed .instruction-text {
+      transform: translateY(20vh);
+    }
+    #propuestas.menu-deployed .section-description {
+      opacity: 1;
+      visibility: visible;
+    }
+    #propuestas #Button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      height: 60px;
+      font-size: 18px;
+      text-align: center;
+      line-height: 60px;
+      background: #e74c3c;
+      border-radius: 50%;
+      color: #ececec;
+      cursor: pointer;
+      z-index: 3;
+      animation: heartbeat 1.5s ease-in-out infinite;
+    }
+    #propuestas .Nav {
+      position: absolute;
+      margin: auto;
+      top: 0; right: 0; bottom: 0; left: 0;
+      width: 302px;
+      height: 302px;
+      font-size: 0;
+      transform: scale(0);
+      transition: transform 0.8s;
+      z-index: 2;
+    }
+    #propuestas .Nav.active {
+      transform: scale(1);
+    }
+    #propuestas .Nav a {
+      display: inline-block;
+      width: 150px;
+      height: 150px;
+      font-size: 28px;
+      text-decoration: none;
+      line-height: 150px;
+      text-align: center;
+      color: #fff;
+      animation: spinIn 0.8s ease;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    #propuestas .Nav a:hover {
+      transform: scale(1.1);
+    }
+    #propuestas .Nav a:nth-of-type(odd) { margin-right: 2px; }
+    #propuestas .Nav a:nth-child(1) { margin-bottom: 2px; background: #1abc9c; }
+    #propuestas .Nav a:nth-child(2) { background: #2ecc71; }
+    #propuestas .Nav a:nth-child(3) { background: #3498db; }
+    #propuestas .Nav a:nth-child(4) { background: #9b59b6; }
+    @keyframes spinIn {
+      0% { transform: rotate(-360deg) scale(0); opacity: 0; }
+      100% { transform: rotate(0deg) scale(1); opacity: 1; }
+    }
+    #propuestas canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    /* -- FIN DE ESTILOS PARA NUEVO MENÚ DE PROPUESTAS -- */
+    /* Fuentes y créditos */
+    .sources-section {
+      background: #ececec;
+      padding: 4rem 0;
+    }
+    .sources-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .source-item {
+      background: white;
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    /* MEJORA 1: Añadido efecto zoom a tarjetas de fuentes */
+    .source-item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+    .source-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+    }
+    .source-details {
+      color: #666;
+      font-size: 0.9rem;
+      word-break: break-all;
+    }
+    /* Footer */
+    footer {
+      background: var(--dark);
+      color: white;
+      padding: 3rem 0 1.5rem;
+    }
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    .footer-logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+    }
+    .footer-logo i {
+      margin-right: 10px;
+      color: var(--accent);
+    }
+    .footer-social {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+      flex-wrap: wrap; /* CORRECCIÓN: Permite que los botones bajen en móviles */
+    }
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem 1rem;
+      background: var(--accent);
+      color: white;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .social-link:hover {
+      background: #0056b3;
+      transform: translateY(-3px);
+    }
+    .footer-contact h3, .footer-comments h3 {
+      margin-bottom: 1.5rem;
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+    .footer-contact h3:after, .footer-comments h3:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background: var(--accent);
+    }
+    .footer-contact-info p {
+      margin-bottom: 0.75rem;
+      color: #ccc;
+      display: flex;
+      align-items: center;
+      /* CORRECCIÓN: Evita desbordamiento de texto largo en móviles */
+      word-wrap: break-word; 
+      word-break: break-word;
+    }
+    .footer-contact-info i {
+      margin-right: 10px;
+      color: var(--accent);
+      width: 20px;
+      text-align: center;
+    }
+    .comment-form {
+      display: flex;
+      flex-direction: column;
+      margin-top: 1rem;
+    }
+    .comment-input {
+      flex: 1;
+      padding: 0.75rem;
+      border: none;
+      border-radius: var(--radius);
+      margin-bottom: 0.5rem;
+      resize: vertical;
+    }
+    .comment-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.75rem;
+      border-radius: var(--radius);
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .comment-btn:hover {
+      background: #0056b3;
+    }
+    .comments-display-area {
+      margin-top: 1.5rem;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .comment-item {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 0.75rem;
+      border-radius: var(--radius);
+      margin-bottom: 0.5rem;
+      color: #ccc;
+      font-size: 0.9rem;
+      word-wrap: break-word;
+    }
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid #444;
+      font-size: 0.9rem;
+      color: #999;
+    }
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal.active {
+      display: flex;
+    }
+    .modal-content {
+      background: white;
+      width: 90%;
+      max-width: 600px;
+      border-radius: var(--radius);
+      padding: 2rem;
+      position: relative;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #999;
+      transition: var(--transition);
+    }
+    .modal-close:hover {
+      color: var(--secondary);
+    }
+    .modal-title {
+      color: var(--primary);
+      margin-bottom: 1rem;
+      padding-right: 2rem;
+    }
+    .modal-text {
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+    .modal-img {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: var(--radius);
+      margin-bottom: 1.5rem;
+    }
+    /* NUEVOS ESTILOS PARA SECCIÓN DE AUTORES */
+    .authors-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .author-card {
+      background: white;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+    .author-card:hover {
+      transform: translateY(-5px) scale(1.03); /* MEJORA 1: Añadido scale(1.03) */
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+    .author-image {
+      height: 250px;
+      overflow: hidden;
+    }
+    .author-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .author-card:hover .author-image img {
+      transform: scale(1.05);
+    }
+    .author-info {
+      padding: 1.5rem;
+    }
+    .author-name {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    /* Estilos para el nuevo Modal de Portada */
+    .modal-portada {
+      background: linear-gradient(145deg, #ffffff, #f0f0f0);
+      border-radius: 10px;
+      padding: 0;
+      text-align: center;
+      max-width: 700px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      border-top: 10px solid;
+      border-bottom: 10px solid;
+      border-image-slice: 1;
+      border-image-source: linear-gradient(to left, var(--primary), var(--accent), var(--secondary));
+      overflow: hidden;
+    }
+    .portada-header {
+      padding: 1rem;
+      background-color: rgba(0, 104, 71, 0.1);
+    }
+    .portada-title {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--primary);
+      text-transform: uppercase;
+      margin: 2rem 1rem;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+    .portada-author, .portada-docente {
+      font-size: 1.2rem;
+      color: var(--dark);
+      margin: 1rem 1.5rem;
+    }
+    .portada-author strong, .portada-docente strong {
+      color: var(--secondary);
+      font-weight: 700;
+    }
+    .portada-footer {
+      background-color: rgba(0, 104, 71, 0.1);
+      padding: 1.5rem;
+      margin-top: 2.5rem;
+      color: #555;
+      font-size: 1rem;
+      display: flex;
+      justify-content: space-around;
+      font-weight: 500;
+    }
+    /* Responsive */
+    @media (max-width: 992px) {
+      .hero-title { font-size: 2.5rem; }
+      .hero-subtitle { font-size: 1.25rem; }
+    }
+    @media (max-width: 768px) {
+      .authors-container {
+        grid-template-columns: 1fr;
+      }
+      .portada-title {
+        font-size: 1.5rem;
+      }
+      .portada-author, .portada-docente {
+        font-size: 1rem;
+      }
+    }
+    @media (max-width: 576px) {
+      .hero { height: 60vh; }
+      .hero-title { font-size: 1.75rem; }
+      .section { padding: 3rem 0; }
+      .reforms-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    /* Animaciones */
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      15% { transform: scale(1.1); }
+      30% { transform: scale(1); }
+      45% { transform: scale(1.1); }
+      60% { transform: scale(1); }
+      100% { transform: scale(1); }
+    }
+
+    /* Estilos para la animación de SCROLL REVEAL */
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      will-change: opacity, transform; /* Optimización para el navegador */
+    }
+    .reveal-on-scroll.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Estilo para comillas destacadas */
+    .fa-solid.fa-quote-left {
+      color: var(--secondary); /* Color rojo */
+      font-size: 1.4rem; /* Más grande */
+      margin-right: 5px;
+      vertical-align: -4px; /* Alineación vertical */
+    }
+    
+    /* Bordes para modales de Propuestas */
+    #talleresModal .modal-content { border-left: 5px solid #1abc9c; }
+    #campañaModal .modal-content { border-left: 5px solid #2ecc71; }
+    #redModal .modal-content { border-left: 5px solid #3498db; }
+    #evaluacionModal .modal-content { border-left: 5px solid #9b59b6; }
+
+    /* Colores para iconos de Marco Teórico */
+    .reform-card[data-modal="durkheim"] .reform-icon { background: #1abc9c; }
+    .reform-card[data-modal="freire"] .reform-icon { background: #2ecc71; }
+    .reform-card[data-modal="dussel"] .reform-icon { background: #3498db; }
+    .reform-card[data-modal="coll"] .reform-icon { background: #9b59b6; }
+    .reform-card[data-modal="nem"] .reform-icon { background: #f1c40f; }
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-content">
+      <button class="hamburger" id="hamburger">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="logo">
+        <i class="fas fa-graduation-cap"></i>
+        <span>Triada Educativa | La crisis</span>
+      </div>
+    </div>
+  </header>
+  <ul class="nav-menu" id="navMenu">
+    <li class="nav-item logo-item">
+      <a href="#" class="nav-link">
+        <i class="fas fa-graduation-cap"></i> <span> Inicio</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="#introduccion" class="nav-link">
+        <i class="fa-solid fa-book"></i> <span>Introducción</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="#problema" class="nav-link">
+        <i class="fa-solid fa-circle-question"></i> <span>Planteamiento</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="#marco-teorico" class="nav-link">
+        <i class="fa-solid fa-brain"></i> <span>Marco teórico</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="#metodologia" class="nav-link">
+        <i class="fa-solid fa-flask"></i> <span>Metodología</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="#resultados" class="nav-link">
+        <i class="fa-solid fa-chart-line"></i> <span>Resultados</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="#propuestas" class="nav-link">
+        <i class="fa-solid fa-rocket"></i> <span>Propuesta</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="#fuentes" class="nav-link">
+        <i class="fa-solid fa-book-bookmark"></i> <span>Fuentes</span>
+      </a>
+    </li>
+  </ul>
+  <main class="main-content">
+    <section class="hero">
+      <div class="slider" id="slider">
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+        <div class="slide" style="background-image: url('accion.jpg');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+      </div>
+      <div class="hero-content">
+        <h1 class="hero-title">La Triada Educativa en Crisis</h1>
+        <p class="hero-subtitle">El impacto de la falta de valores en la relación padres-estudiantes-maestros</p>
+        <div class="hero-buttons">
+          <a href="#introduccion" class="btn">Comenzar Exploración</a>
+          <a href="#" id="openPortadaModal" class="btn btn-secondary">Participantes</a>
+        </div>
+      </div>
+      <div class="pagination" id="pagination">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    </section>
+
+    <section id="introduccion" class="section">
+      <div class="container">
+        <h2 class="section-title reveal-on-scroll">📘 Introducción</h2>
+        <p class="reveal-on-scroll" style="text-align: center; max-width: 800px; margin: 0 auto 2rem;">La formación en valores constituye uno de los pilares fundamentales de la educación integral, especialmente en contextos donde el tejido social enfrenta tensiones derivadas de dinámicas laborales, familiares y culturales.</p>
+        <div class="institutions-grid">
+          <div class="institution-card reveal-on-scroll">
+            <div class="card-inner">
+              <div class="card-front">
+                <div class="card-img"><img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="CECyTE"></div>
+                <div class="card-content">
+                  <h3 class="card-title">🎯 Objetivo General</h3>
+                  <p class="card-text">Diagnosticar y atender la crisis de...👉</p>
+                  <a class="card-link">+ INFO <i class="fas fa-arrow-right"></i></a>
+                </div>
+              </div>
+              <div class="card-back">
+                <h4>Objetivo General</h4>
+                <p>Diagnosticar y atender la crisis de valores en la triada educativa (padres-estudiantes-maestros) del plantel CECyTE 2, mediante estrategias integradoras que fortalezcan la formación ética de los alumnos.</p>
+                <h4>Objetivos Específicos</h4>
+                <ul>
+                  <li>Identificar las percepciones y prácticas actuales de los valores entre los estudiantes.</li>
+                  <li>Analizar el grado de involucramiento de los padres en la formación ética de sus hijos.</li>
+                  <li>Evaluar las estrategias docentes para la enseñanza de valores dentro del aula.</li>
+                  <li>Diseñar e implementar una propuesta de intervención que promueva la corresponsabilidad educativa.</li>
+                </ul>
+                <button class="btn-back">Regresar ↩️</button>
+              </div>
+            </div>
+          </div>
+          <div class="institution-card reveal-on-scroll">
+            <div class="card-inner">
+              <div class="card-front">
+                <div class="card-img"><img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Planteamiento"></div>
+                <div class="card-content">
+                  <h3 class="card-title">🧠 Hipótesis</h3>
+                  <p class="card-text">La articulación efectiva entre padres...👉</p>
+                  <a class="card-link">+ INFO <i class="fas fa-arrow-right"></i></a>
+                </div>
+              </div>
+              <div class="card-back">
+                <h4>Hipótesis</h4>
+                <p><i class="fa-solid fa-quote-left"></i> La articulación efectiva entre padres, docentes y estudiantes en un programa de formación en valores dentro del plantel CECyTE 2 tiene el potencial de revertir la fractura ética observada en la comunidad escolar, promoviendo conductas sostenidas de respeto, responsabilidad y convivencia que fortalezcan el vínculo educativo y social.</p>
+                
+                <button class="btn-back">Regresar ↩️</button>
+              </div>
+            </div>
+          </div>
+          <div class="institution-card reveal-on-scroll">
+            <div class="card-inner">
+              <div class="card-front">
+                <div class="card-img"><img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Hipótesis"></div>
+                <div class="card-content">
+                  <h3 class="card-title">📕 Justificación</h3>
+                  <p class="card-text">En el contexto del plantel CECyTE 2... 👉</p>
+                  <a class="card-link">+ INFO <i class="fas fa-arrow-right"></i></a>
+                </div>
+              </div>
+              <div class="card-back">
+                <h4>Justificación</h4>
+                <p>En el contexto del plantel CECyTE 2, se observa una fractura en la triada educativa conformada por padres, estudiantes y docentes. Esta fractura se manifiesta en la pérdida progresiva de valores como el respeto, la responsabilidad y la empatía, especialmente entre los alumnos. La causa principal parece estar en la escasa participación de los padres en la formación ética de sus hijos, debido a jornadas laborales extensas que limitan el tiempo disponible para el diálogo y la convivencia familiar.</p>
+                <hr>
+                <p>Aunque los docentes promueven activamente los valores dentro del aula, sus esfuerzos no logran consolidarse en cambios significativos en la conducta estudiantil. Esto revela una tensión estructural: la escuela intenta suplir una función que históricamente ha sido compartida con la familia, pero lo hace en un entorno social que no favorece dicha corresponsabilidad. El desafío radica en reconstruir esa alianza educativa, reconociendo las limitaciones reales de cada actor y proponiendo estrategias integradoras.</p>
+                <button class="btn-back">Regresar ↩️</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="problema" class="section" style="background: #f9f9f9;">
+      <div class="container">
+        <h2 class="section-title reveal-on-scroll">📖 Planteamiento del Problema</h2>
+        <p class="reveal-on-scroll" style="text-align: center; max-width: 800px; margin: 0 auto 2rem;">En el contexto del plantel CECyTE 2 se ha identificado una creciente pérdida de valores entre los estudiantes, manifestada en conductas de irrespeto, desinterés por la convivencia y escasa responsabilidad.</p>
+        <div class="levels-accordion">
+          <div class="accordion-item reveal-on-scroll">
+            <div class="accordion-header">
+              <h3 class="accordion-title">🔗 Situación Actual</h3>
+              <span class="accordion-icon"><i class="fas fa-chevron-down"></i></span>
+            </div>
+            <div class="accordion-content">
+              <div class="accordion-content-inner">
+                <p>🚨 Los alumnos presentan conductas que evidencian una pérdida progresiva de valores como el respeto, la responsabilidad y la empatía. Esta situación se agrava por la limitada participación de los padres en la formación ética de sus hijos, atribuida principalmente a la falta de tiempo y a la delegación implícita de dicha responsabilidad a la escuela.</p>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item reveal-on-scroll">
+            <div class="accordion-header">
+              <h3 class="accordion-title">🧑‍🍳 Factores Contribuyentes</h3>
+              <span class="accordion-icon"><i class="fas fa-chevron-down"></i></span>
+            </div>
+            <div class="accordion-content">
+              <div class="accordion-content-inner">
+                <ul>
+                  <li><i class="fas fa-clock"></i>Jornadas laborales extensas de los padres</li>
+                  <li><i class="fas fa-home"></i>Limitada participación familiar en la formación ética</li>
+                  <li><i class="fas fa-chalkboard-teacher"></i>Esfuerzos docentes insuficientemente articulados</li>
+                  <li><i class="fas fa-users"></i>Fractura en la triada educativa</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item reveal-on-scroll">
+            <div class="accordion-header">
+              <h3 class="accordion-title">⛓️‍💥 Consecuencias</h3>
+              <span class="accordion-icon"><i class="fas fa-chevron-down"></i></span>
+            </div>
+            <div class="accordion-content">
+              <div class="accordion-content-inner">
+                <p>⚠️ Este fenómeno plantea una crisis en la triada educativa, donde el desequilibrio en la corresponsabilidad formativa genera un entorno escolar vulnerable, afectando no solo la convivencia sino también el rendimiento académico y el desarrollo socioemocional de los estudiantes. La falta de una estrategia integral que articule el trabajo de padres, maestros y alumnos en torno a los valores está comprometiendo la calidad educativa y el tejido social del plantel.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="marco-teorico" class="section">
+      <div class="container">
+        <h2 class="section-title reveal-on-scroll">📘 Marco Teórico</h2>
+        <p class="reveal-on-scroll" style="text-align: center; max-width: 800px; margin: 0 auto 2rem;">
+          Fundamentos filosóficos y teóricos que sustentan la importancia de la formación en valores en el contexto educativo.
+        </p>
+        <div class="reforms-grid">
+          <div class="reform-card reveal-on-scroll" data-modal="durkheim">
+            <div class="reform-icon heartbeat">
+              <i class="fas fa-project-diagram"></i>
+            </div>
+            <h3>Émile Durkheim</h3>
+            <p>La educación como socialización</p>
+          </div>
+          <div class="reform-card reveal-on-scroll" data-modal="freire">
+            <div class="reform-icon heartbeat">
+              <i class="fas fa-globe-americas"></i>
+            </div>
+            <h3>Paulo Freire</h3>
+            <p>Pedagogía del diálogo</p>
+          </div>
+          <div class="reform-card reveal-on-scroll" data-modal="dussel">
+            <div class="reform-icon heartbeat">
+              <i class="fas fa-hands-helping"></i>
+            </div>
+            <h3>Esteban Dussel</h3>
+            <p>Ética del cuidado</p>
+          </div>
+          <div class="reform-card reveal-on-scroll" data-modal="coll">
+            <div class="reform-icon heartbeat">
+              <i class="fas fa-chalkboard-teacher"></i>
+            </div>
+            <h3>César Coll</h3>
+            <p>Aprendizaje significativo</p>
+          </div>
+          <div class="reform-card reveal-on-scroll" data-modal="nem">
+            <div class="reform-icon heartbeat">
+              <i class="fas fa-users"></i>
+            </div>
+            <h3>Políticas Educativas</h3>
+            <p>Nueva Escuela Mexicana</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="metodologia" class="section" style="background: #f9f9f9;">
+      <div class="container">
+        <h2 class="section-title reveal-on-scroll">⚙️ Metodología</h2>
+        <p class="reveal-on-scroll" style="text-align:center; max-width: 800px; margin: 0 auto 2rem;">El proyecto se desarrollará bajo un enfoque mixto (cuantitativo y cualitativo), que permitirá obtener datos estadísticos sobre la percepción de valores en la comunidad escolar.</p>
+        <div class="authors-container">
+          <div class="author-column">
+            <div class="author-card reveal-on-scroll">
+              <div class="author-image">
+                <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Enfoque Metodológico">
+              </div>
+              <div class="author-info">
+                <h3 class="author-name">🛠️ Enfoque Metodológico</h3>
+                <div class="accordion-item">
+                  <div class="accordion-header">
+                    <h3 class="accordion-title">🕵️‍♀️Investigación-Acción</h3>
+                    <span class="accordion-icon"><i class="fas fa-chevron-down"></i></span>
+                  </div>
+                  <div class="accordion-content">
+                    <div class="accordion-content-inner">
+                      <p>📌 Se utilizará el método investigación-acción, que combina diagnóstico, intervención y evaluación en ciclos participativos. Este enfoque permite no solo comprender la problemática, sino también implementar y evaluar estrategias de mejora.</p>
+                      <br>
+                      <ul>
+                        <li><i class="fas fa-shapes"></i><b>Enfoque mixto</b>: Cuantitativo y cualitativo</li>
+                        <li><i class="fas fa-cogs"></i><b>Método</b>: Investigación-acción</li>
+                        <li><i class="fas fa-users"></i><b>Participantes</b>: Estudiantes, docentes y padres de familia</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="author-column">
+            <div class="author-card reveal-on-scroll">
+              <div class="author-image">
+                <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Técnicas e Instrumentos">
+              </div>
+              <div class="author-info">
+                <h3 class="author-name">🧪 Técnicas e Instrumentos</h3>
+                <div class="accordion-item">
+                  <div class="accordion-header">
+                    <h3 class="accordion-title">🔭 Recolección de Datos</h3>
+                    <span class="accordion-icon"><i class="fas fa-chevron-down"></i></span>
+                  </div>
+                  <div class="accordion-content">
+                    <div class="accordion-content-inner">
+                      <p>🔖 Diversas técnicas e instrumentos serán utilizados para recopilar información relevante sobre la percepción y práctica de valores en la comunidad escolar.</p>
+                      <br>
+                      <ul>
+                        <li><i class="fas fa-poll"></i><b>Encuesta diagnóstica</b>: Aplicada a estudiantes</li>
+                        <li><i class="fas fa-comments"></i><b>Entrevistas semiestructuradas</b>: A docentes y padres</li>
+                        <li><i class="fas fa-eye"></i><b>Observación participativa</b>: En aulas y espacios comunes</li>
+                        <li><i class="fas fa-users"></i><b>Grupos focales</b>: Con estudiantes y docentes</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="resultados" class="section">
+      <div class="container">
+        <h2 class="section-title reveal-on-scroll">📉 Resultados y Análisis</h2>
+        <p class="reveal-on-scroll" style="text-align: center; max-width: 800px; margin: 0 auto 2rem;">
+          A partir de los resultados obtenidos en la encuesta, detallamos la interpretación general por bloques temáticos.
+        </p>
+        <div class="timeline-slider-container">
+          <button class="timeline-nav prev"><i class="fas fa-chevron-left"></i></button>
+          <div class="timeline-slider">
+            <div class="timeline-item">
+              <div class="timeline-card reveal-on-scroll">
+                <div class="timeline-year">Respeto</div>
+                <h4 class="timeline-title">Respeto hacia docentes y compañeros</h4>
+                <div class="timeline-content">
+                  <ul>
+                    <li>La mayoría de los estudiantes respondieron "Siempre" cuando se les preguntó si practican el respeto hacia sus maestros.</li>
+                    <li>Sin embargo, ante faltas de respeto de otros compañeros, muchos optan por quedarse callados.</li>
+                    <li>En cuanto al ambiente general, predomina la percepción de respeto parcial o limitado.</li>
+                  </ul>
+                  <p><i class="fa-solid fa-quote-left"></i><em> Esto sugiere que aunque el respeto hacia docentes se mantiene en lo individual, el entorno grupal presenta tensiones que inhiben la acción ética colectiva.</em></p>
+                </div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-card reveal-on-scroll">
+                <div class="timeline-year">Familia</div>
+                <h4 class="timeline-title">Participación familiar en la formación ética</h4>
+                <div class="timeline-content">
+                  <ul>
+                    <li>La mayoría indicó que sus padres hablan sobre valores "Frecuentemente" o "Sí, todos los días".</li>
+                    <li>No obstante, muchos también señalaron que sus padres tienen poco tiempo para conversar sobre su conducta escolar.</li>
+                    <li>Ante faltas de respeto cometidas por los alumnos, la mayoría reporta que sus padres los corrigen y dialogan.</li>
+                  </ul>
+                  <p><i class="fa-solid fa-quote-left"></i><em> Existe voluntad formativa en casa, pero limitada por factores estructurales como el tiempo disponible.</em></p>
+                </div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-card reveal-on-scroll">
+                <div class="timeline-year">Escuela</div>
+                <h4 class="timeline-title">Promoción de valores en la escuela</h4>
+                <div class="timeline-content">
+                  <ul>
+                    <li>La mayoría percibe que los docentes promueven valores "A veces" o "Sí, constantemente".</li>
+                    <li>En cuanto al impacto de los valores escolares en la vida diaria, predomina la respuesta "A veces los aplico".</li>
+                    <li>Varios afirmaron que "Sí, los aplico fuera de la escuela".</li>
+                  </ul>
+                  <p><i class="fa-solid fa-quote-left"></i><em> La escuela sí influye en la formación ética, pero no logra una aplicación consistente en todos los estudiantes.</em></p>
+                </div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-card reveal-on-scroll">
+                <div class="timeline-year">Valores</div>
+                <h4 class="timeline-title">Valores más perdidos</h4>
+                <div class="timeline-content">
+                  <ul>
+                    <li>Los valores más mencionados como "perdidos" fueron Respeto, Honestidad y Responsabilidad.</li>
+                    <li>Con menor frecuencia para Solidaridad.</li>
+                    <li>Esto coincide con las tensiones observadas en la convivencia escolar y la percepción de conflictos.</li>
+                  </ul>
+                  <p><i class="fa-solid fa-quote-left"></i><em> Los valores fundamentales para la convivencia escolar son percibidos como los más afectados.</em></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="timeline-nav prev"><i class="fas fa-chevron-left"></i></button>
+          <button class="timeline-nav next"><i class="fas fa-chevron-right"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <section id="propuestas" class="section">
+      <div class="container">
+        <h2 class="section-title reveal-on-scroll">🧩 Propuesta de Intervención</h2>
+      </div>
+      <div id="Button" class="fas fa-fire"></div>
+      <div class="Nav">
+        <a data-modal="talleres"><span class="fas fa-school infra-icon"></span></a>
+        <a data-modal="campaña"><span class="fas fa-laptop-code"></span></a>
+        <a data-modal="red"><span class="fas fa-balance-scale"></span></a>
+        <a data-modal="evaluacion"><span class="fa-solid fa-screwdriver-wrench"></span></a>
+      </div>
+      <p class="section-description">La propuesta "Valores que nos unen" se implementará como estrategia central del proyecto, articulando acciones dirigidas a los tres actores de la triada educativa.</p>
+      <p class="instruction-text">Haz clic en el botón para explorar las fases de la intervención.</p>
+      <canvas></canvas>
+      <audio id="explosionSound" src="https://www.soundjay.com/button/sounds/button-16.mp3" preload="auto"></audio>
+    </section>
+
+    <section id="fuentes" class="sources-section">
+      <div class="container">
+        <h2 class="section-title reveal-on-scroll">📚 Fuentes de Referencia</h2>
+        <p class="reveal-on-scroll" style="text-align: center; max-width: 800px; margin: 0 auto 2rem;">Información basada en fuentes confiables y actualizadas sobre educación en valores.</p>
+        <div class="sources-grid">
+          <div class="source-item reveal-on-scroll">
+            <h3 class="source-title">Durkheim, É.</h3>
+            <p class="source-details"><em>Durkheim, É. (1911). Educación y sociología. París: Presses Universitaires de France.</em></p>
+          </div>
+          <div class="source-item reveal-on-scroll">
+            <h3 class="source-title">Freire, P.</h3>
+            <p class="source-details">
+              <em>Freire, P. (1997). Pedagogía del oprimido. México: Siglo XXI Editores.</em>
+            </p>
+          </div>
+          <div class="source-item reveal-on-scroll">
+            <h3 class="source-title">Dussel, E.</h3>
+            <p class="source-details"><em>Dussel, E. (2006). Ética de la liberación en la edad de la globalización y la exclusión. Madrid: Trotta.</em></p>
+          </div>
+          <div class="source-item reveal-on-scroll">
+            <h3 class="source-title">Coll, C.</h3>
+            <p class="source-details"><em>Coll, C. (2007). Psicología de la educación y práctica educativa. Barcelona: Graó.</em></p>
+          </div>
+          <div class="source-item reveal-on-scroll">
+            <h3 class="source-title">Nueva Escuela Mexicana</h3>
+            <p class="source-details"><em>Nueva Escuela Mexicana. (2023). Ejes de la política educativa. https://nuevaescuelamexicana.org/</em></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-about">
+          <div class="footer-logo">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Crisis de Valores</span>
+          </div>
+          <p>Documental digital interactivo sobre la crisis de valores en la triada educativa. Diseñado para facilitar la comprensión y propuesta de soluciones. 📝 Consulta el cuestionario aplicado 👇.</p>
+          <div class="footer-social">
+            <a href="https://forms.gle/373LC9GY8xbccGFg7" class="social-link" target="_blank">Test Alumnos</a>
+            <a href="https://forms.gle/u5nL6zhY1X83tieK6" class="social-link" target="_blank">Test Padres</a>
+          </div>
+        </div>
+        <div class="footer-contact">
+          <h3>Contacto</h3>
+          <div class="footer-contact-info">
+            <p><i class="fas fa-user"></i>Diseñador: Ing. Héctor L. Pérez</p>
+            <p><i class="fas fa-envelope"></i>ue0204@unienigma.edu.mx</p>
+            <p><i class="fas fa-phone"></i>+52 (984) 211-9971</p>
+            <p><i class="fas fa-map-marker-alt"></i>Playa del Carmen, Q. Roo.</p>
+          </div>
+        </div>
+        <div class="footer-comments">
+          <h3>Comentarios</h3>
+          <p>Déjanos tu opinión sobre esta investigación.</p>
+          <form class="comment-form" id="commentForm">
+            <textarea id="commentInput" class="comment-input" placeholder="Escribe tu comentario aquí..." rows="3"></textarea>
+            <button type="submit" class="comment-btn">Comentar</button>
+          </form>
+          <div class="comments-display-area" id="commentsDisplay">
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Crisis de Valores en la Educación - Virtual Interactivo. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="modal" id="portadaModal">
+    <div class="modal-content modal-portada">
+      <button class="modal-close">&times;</button>
+      <div class="portada-header"></div>
+      <h2 class="portada-title">LA TRIADA EDUCATIVA EN CRISIS</h2>
+      <p class="portada-author">Carlos I. Gaona S. </p>
+      <p class="portada-author">Xaviera N. López R.</p>
+      <p class="portada-author">Rosa A. Barredo P.</p>
+      <p class="portada-author">Nallely Hernandez PP.</p>
+      <p class="portada-docente"><strong>Docente:</strong> Dra. Luz Ma. Ortiz Alcocer</p>
+      <div class="portada-footer">
+        <p>Playa del Carmen, Q. Roo</p>
+        <p>Noviembre 02, 2025</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="talleresModal">
+    <div class="modal-content">
+      <button class="modal-close">&times;</button>
+      <h2 class="modal-title"><i class="fas fa-school infra-icon"></i> Talleres Integradores</h2>
+      <div class="modal-text">
+        <p>Fase 2: Talleres integradores dirigidos a los tres actores de la triada educativa:</p>
+        <ul>
+          <li><strong>✅ Padres:</strong> Sesiones breves sobre cómo reforzar valores desde casa, incluso con poco tiempo.</li>
+          <li><strong>✅ Docentes:</strong> Intercambio de buenas prácticas y diseño de actividades transversales.</li>
+          <li><strong>✅ Alumnos:</strong> Dinámicas vivenciales, debates y proyectos colaborativos.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="campañaModal">
+    <div class="modal-content">
+      <button class="modal-close">&times;</button>
+      <h2 class="modal-title"><i class="fas fa-laptop-code"></i> Campaña Escolar de Valores</h2>
+      <div class="modal-text">
+        <p>Fase 3: Campaña escolar de valores que involucra a toda la comunidad educativa:</p>
+        <ul>
+          <li>✅ Creación de murales, cápsulas de video y mensajes semanales.</li>
+          <li>✅ Participación activa de estudiantes en la difusión de mensajes positivos.</li>
+          <li>✅ Integración de los valores como eje transversal del currículo.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="redModal">
+    <div class="modal-content">
+      <button class="modal-close">&times;</button>
+      <h2 class="modal-title"><i class="fas fa-balance-scale"></i> Red de Corresponsabilidad</h2>
+      <div class="modal-text">
+        <p>Fase 4: Establecimiento de una red de corresponsabilidad educativa:</p>
+        <ul>
+          <li>✅ Comité mixto (padres-docentes-estudiantes) para seguimiento.</li>
+          <li>✅ Firma de compromisos éticos por parte de los tres actores.</li>
+          <li>✅ Establecimiento de un Comité de Corresponsabilidad Ética.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="evaluacionModal">
+    <div class="modal-content">
+      <button class="modal-close">&times;</button>
+      <h2 class="modal-title"><i class="fas fa-wrench"></i> Evaluación y Retroalimentación</h2>
+      <div class="modal-text">
+        <p>Fase 5: Evaluación continua y retroalimentación del proceso:</p>
+        <ul>
+          <li>✅ Reaplicación de instrumentos de diagnóstico.</li>
+          <li>✅ Análisis comparativo de resultados.</li>
+          <li>✅ Reconocimiento a quienes destaquen en la práctica de valores.</li>
+          <li>✅ Ajuste de estrategias según los resultados obtenidos.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="durkheimModal">
+    <div class="modal-content" style="border-left: 5px solid #1abc9c;">
+      <button class="modal-close">&times;</button>
+      <h2 class="modal-title">Émile Durkheim</h2>
+      <div class="modal-text">
+        <p>📌 Sostenía que la educación es un proceso de socialización que transmite los valores colectivos necesarios para la cohesión social. En su visión, la escuela no solo instruye, sino que forma moralmente a los individuos para vivir en comunidad (Durkheim, 1911).</p>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="freireModal">
+    <div class="modal-content" style="border-left: 5px solid #2ecc71;">
+      <button class="modal-close">&times;</button>
+      <h2 class="modal-title">Paulo Freire</h2>
+      <div class="modal-text">
+        <p>📌 Proponía una pedagogía del diálogo, donde los valores se construyen en la interacción crítica entre educadores y educandos. Para Freire, el respeto y la conciencia ética no se enseñan desde la autoridad, sino desde la participación activa (Freire, 1997).</p>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="dusselModal">
+    <div class="modal-content" style="border-left: 5px solid #3498db;">
+      <button class="modal-close">&times;</button>
+      <h2 class="modal-title">Esteban Dussel</h2>
+      <div class="modal-text">
+        <p>📌 Plantea que la educación latinoamericana debe centrarse en la ética del cuidado y la justicia, especialmente en contextos de exclusión. Su enfoque es clave para entender la urgencia de formar en valores en comunidades donde el tejido social está debilitado (Dussel, 2006).</p>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="collModal">
+    <div class="modal-content" style="border-left: 5px solid #9b59b6;">
+      <button class="modal-close">&times;</button>
+      <h2 class="modal-title">César Coll</h2>
+      <div class="modal-text">
+        <p>📌 Argumenta que los valores deben integrarse al currículo como parte del aprendizaje significativo. No basta con mencionarlos: deben vivirse en proyectos, dinámicas y relaciones cotidianas (Coll, 2007).</p>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="nemModal">
+    <div class="modal-content" style="border-left: 5px solid #f1c40f;">
+      <button class="modal-close">&times;</button>
+      <h2 class="modal-title">Políticas Educativas</h2>
+      <div class="modal-text">
+        <p>📌 La Nueva Escuela Mexicana (NEM), vigente desde 2020, establece como uno de sus ejes la formación integral del estudiante, incluyendo el desarrollo ético y ciudadano. Reconoce explícitamente la importancia de la participación de los padres en el proceso educativo.</p>
+      </div>
+    </div>
+  </div>
+
+  <audio id="cardSound" src="sonidatarjeta.mp3" preload="auto"></audio>
+  <audio id="accordionSound" src="despliegue.mp3" preload="auto"></audio>
+  <audio id="explosionSoundUser" src="explosion.mp3" preload="auto"></audio>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    // -- CÓDIGO AÑADIDO: FUNCIÓN REUTILIZABLE PARA REPRODUCIR AUDIO CON MANEJO DE ERRORES --
+    const playAudio = (audioElementId) => {
+      const audio = document.getElementById(audioElementId);
+      if (audio) {
+        // Detener y reiniciar si ya se está reproduciendo
+        audio.pause();
+        audio.currentTime = 0;
+        // Intentar reproducir con manejo de errores de promesa (necesario en navegadores modernos)
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            // Reproducción exitosa
+          }).catch(error => {
+            // Se usa console.error para registrar el error sin interrumpir la experiencia del usuario
+            console.error(`Error al intentar reproducir el audio (${audioElementId}):`, error.message);
+          });
+        }
+      } else {
+        console.error('Elemento de audio no encontrado:', audioElementId, '. Asegúrese de que el ID es correcto y el archivo de audio está en la carpeta raíz.');
+      }
+    };
+
+    // -- CÓDIGO AÑADIDO: LISTENERS PARA TARJETAS Y ACORDEONES --
+    document.addEventListener('DOMContentLoaded', () => {
+      
+      // 1. Sonido para TODAS las Tarjetas (sonidatarjeta.mp3)
+      const cardElements = document.querySelectorAll(
+        '.institution-card, .reform-card, .author-card, .timeline-card'
+      );
+      cardElements.forEach(card => {
+        card.addEventListener('click', (e) => {
+          // No reproducir si el clic es para cerrar un modal o un botón de regreso dentro de la tarjeta
+          if (e.target.closest('.modal-close') || e.target.closest('.btn-back')) return; 
+          playAudio('cardSound');
+        });
+      });
+
+      // 2. Sonido para Acordeones (despliegue.mp3)
+      const accordionHeaders = document.querySelectorAll('.accordion-header');
+      accordionHeaders.forEach(header => {
+        header.addEventListener('click', () => {
+          playAudio('accordionSound');
+        });
+      });
+      // -- FIN DEL CÓDIGO AÑADIDO PARA LISTENERS DE TARJETAS Y ACORDEONES --
+      
+      const hamburger = document.getElementById('hamburger');
+      const navMenu = document.getElementById('navMenu');
+      const mainContent = document.querySelector('.main-content');
+      if (window.innerWidth > 768) {
+        navMenu.classList.add('active');
+        mainContent.classList.add('menu-open');
+      }
+      if (hamburger) {
+        hamburger.addEventListener('click', () => {
+          navMenu.classList.toggle('active');
+          mainContent.classList.toggle('menu-open');
+          hamburger.innerHTML = navMenu.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+      }
+      // Cerrar menú al hacer clic en un enlace
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+          if (window.innerWidth <= 768 && navMenu.classList.contains('active')) {
+            navMenu.classList.remove('active');
+            mainContent.classList.remove('menu-open');
+            hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+          }
+        });
+      });
+      // Acordeón
+      const accordionItems = document.querySelectorAll('.accordion-item');
+      accordionItems.forEach(item => {
+        const header = item.querySelector('.accordion-header');
+        header.addEventListener('click', () => {
+          const currentlyActive = document.querySelector('.accordion-item.active');
+          if (currentlyActive && currentlyActive !== item) {
+            currentlyActive.classList.remove('active');
+          }
+          item.classList.toggle('active');
+        });
+      });
+      // Lógica de Modales (unificada)
+      const modalOpenTriggers = document.querySelectorAll('[data-modal], #openPortadaModal');
+      const modalCloseButtons = document.querySelectorAll('.modal-close');
+      const modals = document.querySelectorAll('.modal');
+
+      modalOpenTriggers.forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+          e.preventDefault();
+          let modalId;
+          if (trigger.id === 'openPortadaModal') {
+            modalId = 'portadaModal';
+          } else {
+            modalId = trigger.getAttribute('data-modal') + 'Modal';
+          }
+          const modal = document.getElementById(modalId);
+          if (modal) modal.classList.add('active');
+        });
+      });
+
+      modalCloseButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          button.closest('.modal').classList.remove('active');
+        });
+      });
+
+      modals.forEach(modal => {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            modal.classList.remove('active');
+          }
+        });
+      });
+
+      // Lógica para girar tarjetas de instituciones
+      const flipTriggers = document.querySelectorAll('.institution-card .card-link');
+      const flipBackTriggers = document.querySelectorAll('.institution-card .btn-back');
+      flipTriggers.forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+          e.preventDefault();
+          trigger.closest('.institution-card').classList.add('is-flipped');
+        });
+      });
+      flipBackTriggers.forEach(trigger => {
+        trigger.addEventListener('click', () => {
+          trigger.closest('.institution-card').classList.remove('is-flipped');
+        });
+      });
+      // Smooth scroll para enlaces de navegación
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          const targetId = this.getAttribute('href');
+      if(targetId === '#' || targetId.startsWith('#!')) return; // Ignorar enlaces vacíos
+      e.preventDefault();
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        window.scrollTo({
+      top: targetElement.offsetTop - 70, // Ajuste por el header fijo
+      behavior: 'smooth'
+        });
+      }
+        });
+      });
+      // LÓGICA PARA LA SECCIÓN DE COMENTARIOS
+      const commentForm = document.getElementById('commentForm');
+      const commentInput = document.getElementById('commentInput');
+      const commentsDisplay = document.getElementById('commentsDisplay');
+      const commentsStorageKey = 'crisisValoresComments';
+      const loadComments = () => {
+        const savedComments = JSON.parse(localStorage.getItem(commentsStorageKey)) || [];
+        commentsDisplay.innerHTML = '';
+        savedComments.forEach(commentText => {
+          const commentElement = document.createElement('div');
+          commentElement.classList.add('comment-item');
+          commentElement.textContent = commentText;
+          commentsDisplay.appendChild(commentElement);
+        });
+      };
+      if (commentForm) {
+        commentForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const newComment = commentInput.value.trim();
+          if (newComment) {
+            saveComment(newComment);
+            loadComments();
+            commentInput.value = '';
+          }
+        });
+        loadComments();
+      }
+      // -- LÓGICA PARA LA LÍNEA DE TIEMPO --
+      const timelineSlider = document.querySelector('.timeline-slider');
+      const prevTimelineButton = document.querySelector('#resultados .timeline-nav.prev');
+      const nextTimelineButton = document.querySelector('#resultados .timeline-nav.next');
+      if (timelineSlider && prevTimelineButton && nextTimelineButton) {
+        const scrollAmount = () => {
+          return timelineSlider.querySelector('.timeline-item').offsetWidth;
+        };
+        nextTimelineButton.addEventListener('click', () => {
+          timelineSlider.scrollLeft += scrollAmount();
+        });
+        prevTimelineButton.addEventListener('click', () => {
+          timelineSlider.scrollLeft -= scrollAmount();
+        });
+      }
+      // Slider automático en hero
+      const slider = document.getElementById('slider');
+      const dots = document.querySelectorAll('.dot');
+      let currentSlide = 0;
+      const slideCount = 3;
+      function showSlide(index) {
+        if (slider) {
+          slider.style.transform = `translateX(-${index * (100 / slideCount)}%)`;
+          dots.forEach(dot => dot.classList.remove('active'));
+          if (dots[index]) {
+            dots[index].classList.add('active');
+          }
+        }
+      }
+      function nextSlide() {
+        currentSlide = (currentSlide + 1) % slideCount;
+        showSlide(currentSlide);
+      }
+      dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+          currentSlide = index;
+          showSlide(currentSlide);
+        });
+      });
+      setInterval(nextSlide, 5000);
+
+      // --- LÓGICA PARA SCROLL REVEAL ---
+      const observerOptions = {
+        root: null, // Usa el viewport como raíz
+        rootMargin: '0px',
+        threshold: 0.1 // El 10% del elemento debe estar visible
+      };
+
+      const observerCallback = (entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) { // Si el elemento está en la pantalla
+            entry.target.classList.add('is-visible'); // Añade la clase para animarlo
+            observer.unobserve(entry.target); // Deja de observarlo para no repetir
+          }
+        });
+      };
+
+      // Crea el observador
+      const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
+
+      // Selecciona todos los elementos que queremos animar
+      const elementsToReveal = document.querySelectorAll('.reveal-on-scroll');
+      
+      // Observa cada elemento
+      elementsToReveal.forEach(el => {
+        scrollObserver.observe(el);
+      });
+      // --- FIN DE LÓGICA SCROLL REVEAL ---
+
+    });
+    // -- SCRIPT DE ANIMACIÓN DE PROPUESTAS --
+    $(document).ready(function() {
+      const proposalsSection = $('#propuestas');
+      if (proposalsSection.length) {
+        const canvas = proposalsSection.find('canvas')[0];
+        const context = canvas.getContext('2d');
+        const setCanvasSize = () => {
+          canvas.width = proposalsSection.width();
+          canvas.height = proposalsSection.height();
+        };
+        setCanvasSize();
+        let Projectile;
+        let State = false;
+        let Explode = false;
+        let Collapse = false;
+        let Particles = [];
+        const colors = ["#1abc9c", "#2ecc71", "#3498db", "#9b59b6", "#f1c40f", "#e67e22", "#e74c3c"];
+        
+        // CÓDIGO ORIGINAL (sin usar, pero no eliminado por requerimiento): 
+        // const explosionSound = document.getElementById('explosionSound'); 
+        
+        function Proj() {
+          this.radius = 5.2;
+          this.x = Math.random() * canvas.width;
+          this.y = canvas.height + this.radius;
+          this.color = "#e74c3c";
+          this.velocity = {x: 0, y: 0};
+          this.speed = 12;
+        }
+        Proj.prototype = {
+          Update: function() {
+            const dx = canvas.width / 2 - this.x;
+            const dy = canvas.height / 2 - this.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance <= 10) {
+              Explode = true;
+              $('#propuestas .Nav').addClass('active');
+              // if(explosionSound) explosionSound.play(); // LÍNEA ORIGINAL DE AUDIO COMENTADA
+            } else {
+              this.velocity.x = (dx / distance) * this.speed;
+              this.velocity.y = (dy / distance) * this.speed;
+              this.x += this.velocity.x;
+              this.y += this.velocity.y;
+            }
+          },
+          Draw: function() {
+            context.beginPath();
+            context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+            context.fillStyle = this.color;
+            context.fill();
+            context.closePath();
+          }
+        };
+        function Particle() {
+          this.x = canvas.width / 2;
+          this.y = canvas.height / 2;
+          this.radius = 4;
+          this.color = colors[Math.floor(Math.random() * colors.length)];
+          this.velocity = { x: (Math.random() < 0.5 ? -1 : 1) * Math.random() * 10, y: (Math.random() < 0.5 ? -1 : 1) * Math.random() * 10 };
+          this.speed = 25;
+          this.active = true;
+        }
+        Particle.prototype = {
+          Update: function() {
+            if (Collapse) {
+              const dx = canvas.width / 2 - this.x;
+              const dy = canvas.height / 2 - this.y;
+              const distance = Math.sqrt(dx * dx + dy * dy);
+              this.velocity.x = (dx / distance) * this.speed;
+              this.velocity.y = (dy / distance) * this.speed;
+              this.x += this.velocity.x;
+              this.y += this.velocity.y;
+              if (distance <= 15) this.active = false;
+            } else {
+              this.x += this.velocity.x;
+              this.y += this.velocity.y;
+            }
+          },
+          Draw: function() {
+            context.beginPath();
+            context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+            context.lineWidth = 2.2;
+            context.strokeStyle = this.color;
+            context.stroke();
+            context.closePath();
+          }
+        };
+        function Update() {
+          if (Particles.length < 100) {
+            for (let i = Particles.length; i < 100; i++) {
+              Particles.push(new Particle());
+            }
+          }
+          if (Explode || Collapse) {
+            Particles.forEach(p => p.Update());
+          }
+          Particles = Particles.filter(p => p.active);
+          if (State && !Explode) {
+            Projectile.Update();
+          }
+          Render();
+          requestAnimationFrame(Update);
+        }
+        function Render() {
+          context.clearRect(0, 0, canvas.width, canvas.height);
+          if (Explode || Collapse) {
+            Particles.forEach(p => p.Draw());
+          }
+          if (State && !Explode) {
+            Projectile.Draw();
+          }
+        }
+        $('#propuestas #Button').click(function(e) {
+          e.stopPropagation();
+          State = !State;
+          proposalsSection.toggleClass('menu-deployed');
+          if (Explode && !State) {
+            Collapse = true;
+          } else {
+            Collapse = false;
+            Particles = [];
+          }
+          if (State) {
+            Projectile = new Proj();
+            // CÓDIGO AÑADIDO: Reproducir el audio de explosión al hacer clic en el botón de fuego.
+            playAudio('explosionSoundUser'); 
+          } else {
+            Projectile = null;
+            Explode = false;
+            $('#propuestas .Nav').removeClass('active');
+          }
+          $(this).toggleClass('fa-fire fa-times');
+        });
+        $('#propuestas .Nav a[data-modal]').on('click', function(e) {
+          e.preventDefault();
+          const modalId = $(this).data('modal') + 'Modal';
+          $('#' + modalId).addClass('active');
+        });
+        $(window).resize(setCanvasSize);
+        Update();
+      }
+    });
+  </script>
+</body>
+</html>
